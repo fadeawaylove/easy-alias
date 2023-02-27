@@ -14,8 +14,8 @@ setup(
     # ''',
     entry_points={
         'console_scripts': [
-            'pea=main:cli',
-            'pee=main:pae'
+            'pp=main:cli',
+            'ppe=main:pae'
         ],
     },
 )

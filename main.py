@@ -28,6 +28,16 @@ class ConfigHandler:
     def get_all(self):
         return json.load(open(self.config_file, "r"))
 
+    def delete_all(self):
+        json.dump({}, open(self.config_file, "w"))
+
+    def delete_one(self, name):
+        data = self.get_all()
+        if name in data:
+            cmd = data.pop(name)
+            json.dump(data, open(self.config_file, "w"))
+            return cmd
+
 
 command_config_handler = ConfigHandler("commands.json")
 
@@ -43,7 +53,7 @@ def list_():
     data = command_config_handler.get_all() or {}
     click.echo("commands list:")
     for k, v in data.items():
-        click.echo(f"  k\t{v}")
+        click.echo(f"  {k}\t{v}")
 
 
 @click.command(name="test")
@@ -78,9 +88,32 @@ def add_(name, cmd_tuple):
     click.secho(f"  pee {name}", fg="green")
 
 
+@click.command(name="del")
+@click.option("--name", "-n", help="delete a certain command alise!")
+@click.option("--all", "-a", "all_", help="delete all command aliases!",
+              show_default=True,
+              type=bool,
+              default=False
+              )
+def del_(name, all_):
+    """delete command alis"""
+    if all_:
+        click.confirm("Delete all command aliases?", abort=True)
+        command_config_handler.delete_all()
+        return click.secho(f"delete all command success!", fg="green")
+    if not name:
+        return click.secho("please specify a alias name!", fg="yellow")
+    cmd = command_config_handler.delete_one(name)
+    if cmd:
+        click.secho(f"delete {name} success, command is {cmd}", fg="green")
+    else:
+        click.secho(f"no command for alias {name}", fg="yellow")
+
+
 cli.add_command(list_)
 cli.add_command(add_)
 cli.add_command(test_)
+cli.add_command(del_)
 
 
 @click.command()
@@ -89,7 +122,7 @@ def pae(name):
     """execute command which you already added"""
     cmd_str = command_config_handler.get(name)
     if not cmd_str:
-        return click.secho(f"alias name {name} represents no command!")
+        return click.secho(f"{name} represents no command!", fg="yellow")
     try:
         os.system(cmd_str)
     except Exception as e:
