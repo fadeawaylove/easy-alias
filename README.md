@@ -2,7 +2,7 @@
 
 ## 安装
 
-`pip install -U easy-alias`
+`pip install -U python-alias`
 
 ## 使用
 
