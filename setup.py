@@ -4,8 +4,8 @@ from setuptools import setup, find_packages
 long_description = open(os.path.join(os.path.dirname(__file__), "README.md"), "r", encoding="utf-8").read()
 
 setup(
-    name='easy_alias',
-    version='0.1',
+    name='easy-alias',
+    version='0.0.1',
     author="daigua",
     author_email="1032939141@qq.com",
     description="A simple and easy command alias tool",
@@ -18,7 +18,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pp=scripts.main:cli',
-            'ppe=scripts.main:pae'
+            '_pea_exec=scripts.main:pae'
         ],
     },
     python_requires='>=3.6'
