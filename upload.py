@@ -1,0 +1,5 @@
+import os
+
+os.system("python setup.py sdist bdist_wheel")
+# upload
+# twine upload dist/*

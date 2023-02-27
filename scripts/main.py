@@ -116,14 +116,20 @@ cli.add_command(test_)
 cli.add_command(del_)
 
 
-@click.command()
+@click.command(context_settings=dict(
+    ignore_unknown_options=True,
+    allow_extra_args=True,
+))
 @click.argument("name")
-def pae(name):
+@click.argument("params", nargs=-1)
+def pae(name, params):
     """execute command which you already added"""
     cmd_str = command_config_handler.get(name)
     if not cmd_str:
         return click.secho(f"{name} represents no command!", fg="yellow")
     try:
+        if params:
+            cmd_str = cmd_str + " " + " ".join(params)
         os.system(cmd_str)
     except Exception as e:
         click.echo(f"execute failed, error msg is below:")
