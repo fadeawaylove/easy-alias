@@ -5,7 +5,7 @@ long_description = open(os.path.join(os.path.dirname(__file__), "README.md"), "r
 
 setup(
     name='easy-alias',
-    version='0.0.1',
+    version='0.0.2',
     author="daigua",
     author_email="1032939141@qq.com",
     description="A simple and easy command alias tool",
@@ -17,7 +17,7 @@ setup(
     install_requires=['Click'],
     entry_points={
         'console_scripts': [
-            'pp=scripts.main:cli',
+            'palias=scripts.main:cli',
             '_pea_exec=scripts.main:pae'
         ],
     },

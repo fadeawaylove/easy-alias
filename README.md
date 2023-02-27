@@ -2,35 +2,22 @@
 
 ## 安装
 
-`python setup install`
+`pip install -U easy-alias`
 
 ## 使用
 
-下面以`git status`命令为例
+`palias --help`查看支持的命令
 
-### 测试命令别名
+主要命令使用如下：
 
-执行：`pp test git status`
+- 添加别名：`palias add gs git status`表示`gs`为命令`git status`的别名
 
-### 添加命令别名
+- 别名列表：`palias list`
 
-执行：`pp add gs git status`
+- 执行命令: 直接终端输入`gs`，代表执行`git status`命令
 
-### 命令别名列表
+- 删除别名：`palias del --name gs`
 
-执行：`pp list`
-
-### 通过别名执行命令
-
-执行：`ppe gs`
-
-### 删除当个命令别名
-
-执行：`pp del -n gs`
-
-### 删除所有命令别名
-
-执行：`pp del -a true`
 
 
 

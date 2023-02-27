@@ -114,7 +114,11 @@ def test_(cmd_tuple):
         click.secho(e, fg='red')
 
 
-@click.command(name="add")
+@click.command(name="add",
+               context_settings=dict(
+                   ignore_unknown_options=True,
+                   allow_extra_args=True,
+               ))
 @click.argument("name")
 @click.argument("cmd_tuple", nargs=-1)
 def add_(name, cmd_tuple):
@@ -129,7 +133,7 @@ def add_(name, cmd_tuple):
     cmd_str = " ".join(cmd_tuple)
 
     command_config_handler.set(name, cmd_str)
-    ok, msg = add_sh(name)
+    ok, msg = add_sh(name, check_exists=False if old_cmd else True)
     if not ok:
         command_config_handler.delete_one(name)
         return click.secho(f"add failed, {msg}", fg="red")
