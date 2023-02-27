@@ -4,8 +4,8 @@ from setuptools import setup, find_packages
 long_description = open(os.path.join(os.path.dirname(__file__), "README.md"), "r", encoding="utf-8").read()
 
 setup(
-    name='easy-alias',
-    version='0.0.2',
+    name='py-alias',
+    version='0.0.1',
     author="daigua",
     author_email="1032939141@qq.com",
     description="A simple and easy command alias tool",
