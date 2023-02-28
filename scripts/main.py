@@ -6,7 +6,10 @@ pip install -e .
 import json
 import os
 import sys
+
 import click
+
+from scripts.util import chmod
 
 HOME = os.path.expanduser('~')
 COMMAND_PATH = os.path.dirname(sys.executable)
@@ -50,23 +53,24 @@ command_config_handler = ConfigHandler("commands.json")
 
 
 def add_sh(name, check_exists=True):
-    file = os.path.join(COMMAND_PATH, f"{name}.bat")
-    if check_exists:
-        verify_file_list = [
-            os.path.join(COMMAND_PATH, f"{name}.bat"),
-            os.path.join(COMMAND_PATH, f"{name}.exe"),
-            os.path.join(COMMAND_PATH, f"{name}"),
-        ]
-        for vf in verify_file_list:
-            if os.path.exists(vf):
-                return False, f"command already exists, at path {vf}"
-
+    need_chmod = False
     if PLATFORM == "win32":
         exec_str = f"""
             @echo off
             _pea_exec {name} %*
             """
+        file = os.path.join(COMMAND_PATH, f"{name}.bat")
+        verify_file_list = [
+            os.path.join(COMMAND_PATH, f"{name}.bat"),
+            os.path.join(COMMAND_PATH, f"{name}.exe"),
+            os.path.join(COMMAND_PATH, f"{name}"),
+        ]
     elif PLATFORM in ("linux", "darwin"):
+        need_chmod = True
+        file = os.path.join(COMMAND_PATH, f"{name}")
+        verify_file_list = [
+            os.path.join(COMMAND_PATH, f"{name}.bat")
+        ]
         exec_str = f"""
             # !/bin/bash
             _pea_exec {name}
@@ -74,7 +78,16 @@ def add_sh(name, check_exists=True):
     else:
         msg = f"not supported platform {PLATFORM}"
         return False, msg
+
+    if check_exists:
+        for vf in verify_file_list:
+            if os.path.exists(vf):
+                return False, f"command already exists, at path {vf}"
+
+    os.remove(file)
     open(file, "w").write(exec_str)
+    if need_chmod:
+        chmod(file, "755")
     return True, "ok"
 
 
