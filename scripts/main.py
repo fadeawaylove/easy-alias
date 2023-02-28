@@ -83,8 +83,10 @@ def add_sh(name, check_exists=True):
         for vf in verify_file_list:
             if os.path.exists(vf):
                 return False, f"command already exists, at path {vf}"
-
-    os.remove(file)
+    try:
+        os.remove(file)
+    except:
+        pass
     open(file, "w").write(exec_str)
     if need_chmod:
         chmod(file, "755")
