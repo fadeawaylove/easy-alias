@@ -94,7 +94,13 @@ def add_sh(name, check_exists=True):
 
 
 def remove_sh(name):
-    file = os.path.join(COMMAND_PATH, f"{name}.bat")
+    if PLATFORM == "win32":
+        file = os.path.join(COMMAND_PATH, f"{name}.bat")
+    elif PLATFORM in ("linux", "darwin"):
+        file = os.path.join(COMMAND_PATH, f"{name}")
+    else:
+        msg = f"not supported platform {PLATFORM}"
+        return click.secho(msg, fg="red")
     try:
         os.remove(file)
     except Exception as e:
