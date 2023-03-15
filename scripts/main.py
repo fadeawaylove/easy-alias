@@ -73,7 +73,7 @@ def add_sh(name, check_exists=True):
         ]
         exec_str = f"""
             # !/bin/bash
-            _pea_exec {name}
+            _pea_exec {name} $*
             """
     else:
         msg = f"not supported platform {PLATFORM}"

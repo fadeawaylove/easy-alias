@@ -5,7 +5,7 @@ long_description = open(os.path.join(os.path.dirname(__file__), "README.md"), "r
 
 setup(
     name='python-alias',
-    version='0.0.5',
+    version='0.0.6',
     author="daigua",
     author_email="1032939141@qq.com",
     description="A simple and easy command alias tool",
