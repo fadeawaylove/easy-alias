@@ -116,9 +116,8 @@ def cli():
 def list_():
     """show alias command list"""
     data = command_config_handler.get_all() or {}
-    click.echo("commands list:")
     for k, v in data.items():
-        click.echo(f"  {k}\t{v}")
+        click.echo(f"{k}=\'{v}\'")
 
 
 @click.command(name="test")
@@ -207,7 +206,11 @@ def pae(name, params):
         return click.secho(f"{name} represents no command!", fg="yellow")
     try:
         if params:
-            cmd_str = cmd_str + " " + " ".join(params)
+            if "{}" in cmd_str:
+                for p in params:
+                    cmd_str = cmd_str.format(p)
+            else:
+                cmd_str = cmd_str + " " + " ".join(params)
         click.secho(f"{cmd_str}", fg="black", bg="white")
         os.system(cmd_str)
     except Exception as e:
