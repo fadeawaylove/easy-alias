@@ -4,6 +4,4 @@ import shutil
 shutil.rmtree("./dist")
 os.system("python -m pip install build -U")
 os.system("python -m build")
-
-# upload
-# twine upload dist/*
+os.system(f"twine upload -u {input('username: ')} -p {input('password: ')}  dist/*  --verbose")
